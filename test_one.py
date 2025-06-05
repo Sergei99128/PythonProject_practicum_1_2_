@@ -1,9 +1,11 @@
-from keras.src.backend.jax.numpy import vectorize
+# from keras.src.backend.jax.numpy import vectorize
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 from time import  time
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
 
 
 class News:
@@ -28,8 +30,23 @@ class News:
                                             test_size=0.2, random_state=46)
 
         vectorizer = TfidfVectorizer(stop_words='english', max_df=0.7)
-        x_train_vect = vectorizer.transform(x_train)
-        x_test_vect = vectorizer.transform(x_test)
+        x_train_vect = vectorizer.fit_transform(x_train)
+        x_test_vect = vectorizer.fit_transform(x_test)
 
-        model = PassiveAggressiveClassifier(max_iter=2000)
+        model = PassiveAggressiveClassifier(max_iter=1000)
         model.fit(x_train_vect,y_train)
+
+        y_pred = model.predict(x_test_vect)
+        print(f"Accuracy: {accuracy_score(y_test, y_pred):.2%}")
+        cm = confusion_matrix(y_test, y_pred)
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['FAKE', 'REAL'])
+        disp.plot(cmap='Blues')
+        plt.title("Confusion Matrix")
+        plt.show()
+
+
+if __name__ == '__main__':
+    trac = 'data/fake_news.csv'
+    news = News(trac)
+    news.content_news()
+    news.train()
