@@ -22,7 +22,7 @@ class News:
         self.pf['label_num'] = self.pf['label'].map({'FAKE': 0 , 'REAL': 1})
         self.x = self.pf['content']
         self.y = self.pf['label_num']
-
+        return self.pf['content']
     def train(self):
 
         x_train, x_test, y_train, y_test = train_test_split(
@@ -48,5 +48,5 @@ class News:
 if __name__ == '__main__':
     trac = 'data/fake_news.csv'
     news = News(trac)
-    news.content_news()
+    print(news.content_news())
     news.train()
