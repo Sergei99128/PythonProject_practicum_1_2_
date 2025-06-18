@@ -71,7 +71,7 @@ X_test_vec = vectorizer.transform(X_test)
 
 from sklearn.linear_model import PassiveAggressiveClassifier
 
-model = PassiveAggressiveClassifier(max_iter=1000)
+model = PassiveAggressiveClassifier(max_iter=10000)
 model.fit(X_train_vec, y_train)
 
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
@@ -84,7 +84,18 @@ cm = confusion_matrix(y_test, y_pred)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['FAKE', 'REAL'])
 disp.plot(cmap='Blues')
 plt.title("Confusion Matrix")
-plt.show()
-
+# plt.show()
+print(cm)
 if __name__ == '__main__':
     print('is_ok')
+
+
+# with open('data/parkinsons.data','r+', encoding='UTF-8') as file:
+#     file.read()
+#     print(file)
+from xgboost import XGBClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+pf = pd.read_csv('data/parkinsons.data')
+if __name__ == '__main__':
+    print(pf)
